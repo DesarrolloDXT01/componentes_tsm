@@ -2,12 +2,17 @@ import logo from './logo.svg';
 import './App.css';
 import Button from './button/Button';
 import InputText from './input/InputText';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import InputDateTime from './input/InputDateTime';
 import InputFile from './input/InputFile';
 import Card from './card/Card';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import Editor from './quill/Editor';
+const Delta = Quill.import('delta');
 
 function App() {
+
   const handleClick = () => {
     alert('Button clicked!');
   };
@@ -24,13 +29,19 @@ function App() {
   const handleFileChange = (files) => {
     setSelectedFiles(files);
   };
+  const [value, setValue] = useState('');
 
+  const [range, setRange] = useState();
+  const [lastChange, setLastChange] = useState();
+  const [readOnly, setReadOnly] = useState(false);
+
+  const quillRef = useRef();
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         
-        <section className="button-section mb-4">
+        <section >
           <h2>Buttons</h2>
           <Button
             text="Primary Button"
@@ -56,7 +67,7 @@ function App() {
           />
         </section>
         
-        <section className="input-text-section">
+        <section >
           <h2>Text Inputs</h2>
           <InputText
             type="number"
@@ -75,7 +86,7 @@ function App() {
           />&nbsp;
         </section>
         
-        <section className="input-datetime-section">
+        <section >
           <h2>DateTime Inputs</h2>
           <InputDateTime
             initialDate='2024-10-01T10:09' 
@@ -90,7 +101,7 @@ function App() {
           />&nbsp;
         </section>
         
-        <section className="input-file-section">
+        <section>
           <h2>File Input</h2>
           <InputFile
         onFileChange={handleFileChange}
@@ -98,10 +109,10 @@ function App() {
       />
         </section>
         
-        <section className="card-section">
+        <section >
           <h2>Cards</h2>
           <Card
-            title={<h2 className="text-xl font-bold">tituloo</h2>}
+            header={<h2 className="text-2xl font-bold">tituloo</h2>}
             content={<p>aaaaaaaaaaaaaaaaa</p>}
             footer={ <Button
               text="Primary Button"
@@ -109,9 +120,9 @@ function App() {
               onClick={handleClick}
             />}
             color="primary"
-          />
+          /><br/>
           <Card
-            title={<h2 className="text-xl font-bold">esto es un header</h2>}
+            header={<h2 className="text-2xl font-bold">esto es un header</h2>}
             content={<p>contenidoooo</p>}
             footer={<InputText
               type="text"
@@ -121,9 +132,9 @@ function App() {
               onChange={handleInputChange}
             />}
             color="secondary"
-          />
+          /><br/>
           <Card
-            title={<h2 className="text-xl font-bold">aaaaaaaaaaa</h2>}
+            header={<h2 className="text-2xl font-bold">aaaaaaaaaaa</h2>}
             content={<p>bbbbbbbbbb</p>}
             footer={
               <InputFile
@@ -131,7 +142,23 @@ function App() {
               color="secondary"/>
             }
             color="secondary"
-          />
+          /><br/>
+        </section>
+        <section>
+        <Editor
+        ref={quillRef}
+        readOnly={readOnly}
+        defaultValue={new Delta()
+          .insert('Hello')
+          .insert('\n', { header: 1 })
+          .insert('Some ')
+          .insert('initial', { bold: true })
+          .insert(' ')
+          .insert('content', { underline: true })
+          .insert('\n')}
+        onSelectionChange={setRange}
+        onTextChange={setLastChange}
+      />
         </section>
 
         <a

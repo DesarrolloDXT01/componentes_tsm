@@ -8,14 +8,7 @@ import React from 'react';
  * - content: body del card.
  * - footer: Footer del card.
  * - color (string): color del borde.
- * 
- * Usage:
- * <Card
- *   header={<h2>Card header</h2>}
- *   content={<p>Card content goes here.</p>}
- *   footer={<button>Click me</button>}
- *   color="border-primary"
- * />
+ * S
  */
 
 const Card = ({ header, content, footer, color }) => {
