@@ -34,14 +34,52 @@ function App() {
   const [range, setRange] = useState();
   const [lastChange, setLastChange] = useState();
   const [readOnly, setReadOnly] = useState(false);
+  const [base64Images, setBase64Images] = useState([]);
 
+  const extractBase64Images = (htmlContent) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const images = doc.querySelectorAll('img');
+    const base64Images = Array.from(images)
+      .map(img => img.src)
+      .filter(src => src.startsWith('data:image'))
+      .map(src => src.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''));
+
+    return base64Images;
+  };
+  const base64ToArrayBuffer = (base64) => {
+    try {
+      // Verifica que la cadena base64 tenga un formato válido
+
+      // Decodifica la base64 a una cadena binaria
+      const binaryString = atob(`${base64[1]}`);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      
+      return bytes.buffer;
+    } catch (error) {
+      console.error('Failed to decode base64:', error);
+      return null;
+    }
+  };
+
+  const base64ToBlob = (base64, mime) => {
+    const arrayBuffer = base64ToArrayBuffer(base64);
+    return new Blob([arrayBuffer], { type: mime });
+  };
 
   const quillRef = useRef();
 
   const handleButtonClick = () => {
-    const content = quillRef.current.getContents();
-    const jsonString = JSON.stringify(content);
-    console.log(content);
+    const content = quillRef.current.root.innerHTML;
+    //const jsonString = JSON.stringify(content);
+    const extractedBase64Images = extractBase64Images(content);
+    console.log('Extracted Base64 Images:', extractedBase64Images);
+    console.log( base64ToBlob(extractedBase64Images, 'image/png'));
   };
 
 
@@ -169,14 +207,12 @@ function App() {
         onChangeSelection={setRange}
         onChange={setLastChange}
       />
-      <div className="controls">
-        <button
-          className="controls-right"
-          type="button"
-          onClick={handleButtonClick}
-        >
-          Convert to JSON
-        </button>
+      <div className="my-4">
+            <Button
+            text="Enviar"
+            color="primary"
+            onClick={handleButtonClick}
+          />
       </div>
     </section>
 
