@@ -6,10 +6,8 @@ import { useRef, useState, useEffect } from 'react';
 import InputDateTime from './input/InputDateTime';
 import InputFile from './input/InputFile';
 import Card from './card/Card';
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import Editor from './quill/Editor';
-import Delta from 'quill-delta';
+import RichText from './richText/RichText';
+
 
 function App() {
 
@@ -31,59 +29,11 @@ function App() {
   };
   const [value, setValue] = useState('');
 
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState();
-  const [readOnly, setReadOnly] = useState(false);
-  const [base64Images, setBase64Images] = useState([]);
-
-  const extractBase64Images = (htmlContent) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    const images = doc.querySelectorAll('img');
-    const base64Images = Array.from(images)
-      .map(img => img.src)
-      .filter(src => src.startsWith('data:image'))
-      .map(src => src.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''));
-
-    return base64Images;
-  };
-  const base64ToArrayBuffer = (base64) => {
-    try {
-      // Verifica que la cadena base64 tenga un formato válido
-
-      // Decodifica la base64 a una cadena binaria
-      const binaryString = atob(`${base64[1]}`);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      return bytes.buffer;
-    } catch (error) {
-      console.error('Failed to decode base64:', error);
-      return null;
-    }
-  };
-
-  const base64ToBlob = (base64, mime) => {
-    const arrayBuffer = base64ToArrayBuffer(base64);
-    return new Blob([arrayBuffer], { type: mime });
-  };
-
   const quillRef = useRef();
 
-  const handleButtonClick = () => {
-    const content = quillRef.current.root.innerHTML;
-    //const jsonString = JSON.stringify(content);
-    const extractedBase64Images = extractBase64Images(content);
-    console.log('Extracted Base64 Images:', extractedBase64Images);
-    console.log( base64ToBlob(extractedBase64Images, 'image/png'));
-  };
 
 
-  
+
   return (
     <div className="App">
       <header className="App-header">
@@ -192,29 +142,9 @@ function App() {
             color="secondary"
           /><br />
         </section>
-        <section className='bg-white text-black'>
-      <Editor
-        ref={quillRef}
-        readOnly={readOnly}
-        defaultValue={new Delta()
-          .insert('Hello')
-          .insert('\n', { header: 1 })
-          .insert('Some ')
-          .insert('initial', { bold: true })
-          .insert(' ')
-          .insert('content', { underline: true })
-          .insert('\n')}
-        onChangeSelection={setRange}
-        onChange={setLastChange}
-      />
-      <div className="my-4">
-            <Button
-            text="Enviar"
-            color="primary"
-            onClick={handleButtonClick}
-          />
-      </div>
-    </section>
+        <section >
+            <RichText/>
+        </section>
 
         <a
           className="App-link"
