@@ -9,10 +9,10 @@ import React from 'react';
  */
 const Button = ({ text, color, onClick, outline = false }) => {
   const baseStyles = {
-    primary: 'px-4 py-2 rounded font-semibold hover:bg-primaryHover',
-    secondary:'px-4 py-2 rounded font-semibold hover:bg-secondaryHover',
-    danger:'px-4 py-2 rounded font-semibold hover:bg-dangerHover',
-    warning:'px-4 py-2 rounded font-semibold hover:bg-warningHover'
+    primary: 'px-4 py-2 rounded-xl font-semibold hover:bg-primaryHover',
+    secondary:'px-4 py-2 rounded-xl font-semibold hover:bg-secondaryHover',
+    danger:'px-4 py-2 rounded-xl font-semibold hover:bg-dangerHover',
+    warning:'px-4 py-2 rounded-xl font-semibold hover:bg-warningHover'
   };
   const outlineStyles = {
     primary: 'bg-transparent border-2 border-primary',

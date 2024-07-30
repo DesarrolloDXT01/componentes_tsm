@@ -2,12 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 import Button from './button/Button';
 import InputText from './input/InputText';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import InputDateTime from './input/InputDateTime';
 import InputFile from './input/InputFile';
 import Card from './card/Card';
+import RichText from './richText/RichText';
+
 
 function App() {
+
   const handleClick = () => {
     alert('Button clicked!');
   };
@@ -25,12 +28,21 @@ function App() {
     setSelectedFiles(files);
   };
 
+  const [richTextObject, setRichTextObject] = useState(null);
+
+  const handleFinalObjectChange = (newRichTextObject) => {
+    setRichTextObject(newRichTextObject);
+  };
+
+
+
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        
-        <section className="button-section mb-4">
+
+        <section >
           <h2>Buttons</h2>
           <Button
             text="Primary Button"
@@ -55,8 +67,8 @@ function App() {
             outline={true}
           />
         </section>
-        
-        <section className="input-text-section">
+
+        <section >
           <h2>Text Inputs</h2>
           <InputText
             type="number"
@@ -74,11 +86,11 @@ function App() {
             outline={true}
           />&nbsp;
         </section>
-        
-        <section className="input-datetime-section">
+
+        <section >
           <h2>DateTime Inputs</h2>
           <InputDateTime
-            initialDate='2024-10-01T10:09' 
+            initialDate='2024-10-01T10:09'
             color="primary"
             onChange={handleDateTimeChange}
             showTime={true}
@@ -89,29 +101,29 @@ function App() {
             onChange={handleDateTimeChange}
           />&nbsp;
         </section>
-        
-        <section className="input-file-section">
+
+        <section>
           <h2>File Input</h2>
           <InputFile
-        onFileChange={handleFileChange}
-        color="danger"
-      />
+            onFileChange={handleFileChange}
+            color="danger"
+          />
         </section>
-        
-        <section className="card-section">
+
+        <section >
           <h2>Cards</h2>
           <Card
-            title={<h2 className="text-xl font-bold">tituloo</h2>}
+            header={<h2 className="text-2xl font-bold">tituloo</h2>}
             content={<p>aaaaaaaaaaaaaaaaa</p>}
-            footer={ <Button
+            footer={<Button
               text="Primary Button"
               color="primary"
               onClick={handleClick}
             />}
             color="primary"
-          />
+          /><br />
           <Card
-            title={<h2 className="text-xl font-bold">esto es un header</h2>}
+            header={<h2 className="text-2xl font-bold">esto es un header</h2>}
             content={<p>contenidoooo</p>}
             footer={<InputText
               type="text"
@@ -121,17 +133,21 @@ function App() {
               onChange={handleInputChange}
             />}
             color="secondary"
-          />
+          /><br />
           <Card
-            title={<h2 className="text-xl font-bold">aaaaaaaaaaa</h2>}
+            header={<h2 className="text-2xl font-bold">aaaaaaaaaaa</h2>}
             content={<p>bbbbbbbbbb</p>}
             footer={
               <InputFile
-              onFileChange={handleFileChange}
-              color="secondary"/>
+                onFileChange={handleFileChange}
+                color="secondary" />
             }
             color="secondary"
-          />
+          /><br />
+        </section>
+        <section >
+        <RichText onFinalObjectChange={handleFinalObjectChange} />
+      {richTextObject && <div>Rich Text Object: {JSON.stringify(richTextObject)}</div>}
         </section>
 
         <a

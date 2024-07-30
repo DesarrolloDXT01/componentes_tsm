@@ -32,6 +32,10 @@ h2{
   margin-bottom: 10px;
 }
 
+section{
+  margin-bottom: 30px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
