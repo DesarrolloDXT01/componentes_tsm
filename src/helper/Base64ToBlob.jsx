@@ -1,5 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-
+/**
+ * componente para convertir imagenes base64 a blob
+ * 
+ * Props:
+ * - base64Images (array): se envia un array con las imagenes a convertir
+ * - onBlobsReady (function): handle para el resultado de la conversion
+ */
 const Base64ToBlob = ({ base64Images, onBlobsReady }) => {
   const previousBase64ImagesRef = useRef([]);
 

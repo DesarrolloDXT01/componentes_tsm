@@ -27,9 +27,12 @@ function App() {
   const handleFileChange = (files) => {
     setSelectedFiles(files);
   };
-  const [value, setValue] = useState('');
 
-  const quillRef = useRef();
+  const [richTextObject, setRichTextObject] = useState(null);
+
+  const handleFinalObjectChange = (newRichTextObject) => {
+    setRichTextObject(newRichTextObject);
+  };
 
 
 
@@ -143,7 +146,8 @@ function App() {
           /><br />
         </section>
         <section >
-            <RichText/>
+        <RichText onFinalObjectChange={handleFinalObjectChange} />
+      {richTextObject && <div>Rich Text Object: {JSON.stringify(richTextObject)}</div>}
         </section>
 
         <a

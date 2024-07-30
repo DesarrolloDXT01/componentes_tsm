@@ -6,7 +6,14 @@ import Delta from 'quill-delta';
 import Button from '../button/Button';
 import Base64ToBlob from '../helper/Base64ToBlob';
 
-const RichText = () => {
+/**
+ * RichText componente
+ * 
+ * Props:
+ * - onFinalObjectChange (function): handle para obtener el un objeto con las imagenes y el texto del rich text
+ */
+
+const RichText = ({onFinalObjectChange} ) => {
     const [lastChange, setLastChange] = useState();
     const [readOnly, setReadOnly] = useState(false);
     const [base64Images, setBase64Images] = useState([]);
@@ -14,6 +21,7 @@ const RichText = () => {
     const quillRef = useRef();
     const [contentTXT, setContentTXT] = useState('');
     const [finalObject, setFinalObject] = useState(null);
+    
 
     const handleBlobsReady = (blobsArray) => {
         setBlobs(blobsArray);
@@ -46,9 +54,9 @@ const RichText = () => {
 
       useEffect(() => {
         if (finalObject) {
-          console.log('Final Object:', finalObject);
+          onFinalObjectChange(finalObject);
         }
-      }, [finalObject]);
+      }, [finalObject, onFinalObjectChange]);
     return (
         <div className='bg-white text-black'>
 
