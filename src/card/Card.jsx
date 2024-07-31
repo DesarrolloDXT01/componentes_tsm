@@ -12,11 +12,11 @@ import React from 'react';
  */
 
 const Card = ({ header, content, footer, color }) => {
-  const cardBaseStyles = `border-2 border-${color} bg-slate-100 p-4 rounded-xl shadow-md text-black`;
+  const cardBaseStyles = `border-2 border-${color} bg-slate-100 p-4 rounded-xl shadow-md text-black `;
 
   return (
     <div className={cardBaseStyles}>
-      {header && <div className="mb-4">{header}</div>}
+      {header && <div className="mb-4 border-b border-black rounded-lg">{header}</div>}
       {content && <div className="mb-4">{content}</div>}
       {footer && <div className="mt-4">{footer}</div>}
     </div>

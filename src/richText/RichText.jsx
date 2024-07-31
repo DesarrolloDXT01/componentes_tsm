@@ -58,7 +58,7 @@ const RichText = ({onFinalObjectChange} ) => {
         }
       }, [finalObject, onFinalObjectChange]);
     return (
-        <div className='bg-white text-black'>
+        <div className='bg-white text-black border border-black'>
 
             <Editor
                 ref={quillRef}

@@ -7,6 +7,7 @@ import InputDateTime from './input/InputDateTime';
 import InputFile from './input/InputFile';
 import Card from './card/Card';
 import RichText from './richText/RichText';
+import Modal from './modal/Modal';
 
 
 function App() {
@@ -33,6 +34,11 @@ function App() {
   const handleFinalObjectChange = (newRichTextObject) => {
     setRichTextObject(newRichTextObject);
   };
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
 
 
@@ -145,19 +151,38 @@ function App() {
             color="secondary"
           /><br />
         </section>
+
         <section >
-        <RichText onFinalObjectChange={handleFinalObjectChange} />
-      {richTextObject && <div>Rich Text Object: {JSON.stringify(richTextObject)}</div>}
+          <h2>Rich Text</h2>
+          <RichText onFinalObjectChange={handleFinalObjectChange} />
+          {richTextObject && <div>Rich Text Object: {JSON.stringify(richTextObject)}</div>}
         </section>
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <section className="p-4 text-black">
+          <Button
+            onClick={openModal}
+            color="secondary"
+            text="Abrir Modal"
+          >
+
+          </Button>
+          <Modal isOpen={isModalOpen} onClose={closeModal} title="Modal Test">
+            <p>Modal</p>
+            <RichText onFinalObjectChange={handleFinalObjectChange} />
+            {richTextObject && <div>Rich Text Object: {JSON.stringify(richTextObject)}</div>}
+            <InputFile
+              onFileChange={handleFileChange}
+              color="primary"
+            />
+            <Button
+              onClick={closeModal}
+              color="secondary"
+              text="cerrar"
+            >
+            </Button>
+          </Modal>
+        </section>
+
       </header>
     </div>
   );
